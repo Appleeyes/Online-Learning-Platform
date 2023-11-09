@@ -1,4 +1,5 @@
 {
+    "name": "apple/online_learning-platform",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
