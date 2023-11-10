@@ -1,4 +1,31 @@
 {
+    "codeception/codeception": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.3",
+            "ref": "89689e24507d8cb2c4a7937ece549db3836b608c"
+        },
+        "files": [
+            "./codeception.yml",
+            "./tests/_data/.gitignore",
+            "./tests/_output/.gitignore",
+            "./tests/_support/AcceptanceTester.php",
+            "./tests/_support/FunctionalTester.php",
+            "./tests/_support/Helper/Acceptance.php",
+            "./tests/_support/Helper/Functional.php",
+            "./tests/_support/Helper/Unit.php",
+            "./tests/_support/UnitTester.php",
+            "./tests/_support/_generated/.gitignore",
+            "./tests/acceptance.suite.yml",
+            "./tests/acceptance/.gitignore",
+            "./tests/functional.suite.yml",
+            "./tests/functional/.gitignore",
+            "./tests/unit.suite.yml",
+            "./tests/unit/.gitignore"
+        ]
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.10",
         "recipe": {
@@ -38,6 +65,18 @@
             "./.env.test",
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
+        ]
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.6",
+            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+        },
+        "files": [
+            "./phpcs.xml.dist"
         ]
     },
     "symfony/console": {

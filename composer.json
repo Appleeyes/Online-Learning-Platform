@@ -91,7 +91,9 @@
         }
     },
     "require-dev": {
+        "codeception/codeception": "^5.0",
         "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "*",
         "symfony/browser-kit": "6.3.*",
         "symfony/css-selector": "6.3.*",
         "symfony/debug-bundle": "6.3.*",
