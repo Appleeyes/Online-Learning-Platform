@@ -25,6 +25,9 @@ class Progress
     #[ORM\Column(name: "last_accessed")]
     private ?\DateTimeImmutable $lastAccessed = null;
 
+    #[ORM\ManyToOne(inversedBy: 'progress')]
+    private ?Enrollments $enrollments = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,6 +84,18 @@ class Progress
     public function setLastAccessed(\DateTimeImmutable $lastAccessed): static
     {
         $this->lastAccessed = $lastAccessed;
+
+        return $this;
+    }
+
+    public function getEnrollments(): ?Enrollments
+    {
+        return $this->enrollments;
+    }
+
+    public function setEnrollments(?Enrollments $enrollments): static
+    {
+        $this->enrollments = $enrollments;
 
         return $this;
     }
