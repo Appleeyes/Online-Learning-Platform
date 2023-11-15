@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CoursesRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
@@ -32,9 +34,13 @@ class Courses
     #[ORM\ManyToOne(inversedBy: 'courses')]
     private ?Users $instructors = null;
 
+    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lessons::class)]
+    private Collection $lessons;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->lessons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +123,36 @@ class Courses
     public function setInstructors(?Users $instructors): static
     {
         $this->instructors = $instructors;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lessons>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lessons $lesson): static
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+            $lesson->setCourses($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lessons $lesson): static
+    {
+        if ($this->lessons->removeElement($lesson)) {
+            // set the owning side to null (unless already changed)
+            if ($lesson->getCourses() === $this) {
+                $lesson->setCourses(null);
+            }
+        }
 
         return $this;
     }
