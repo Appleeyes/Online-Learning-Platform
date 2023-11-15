@@ -37,10 +37,14 @@ class Courses
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lessons::class)]
     private Collection $lessons;
 
+    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollments::class)]
+    private Collection $enrollments;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
         $this->lessons = new ArrayCollection();
+        $this->enrollments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,6 +155,36 @@ class Courses
             // set the owning side to null (unless already changed)
             if ($lesson->getCourses() === $this) {
                 $lesson->setCourses(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Enrollments>
+     */
+    public function getEnrollments(): Collection
+    {
+        return $this->enrollments;
+    }
+
+    public function addEnrollment(Enrollments $enrollment): static
+    {
+        if (!$this->enrollments->contains($enrollment)) {
+            $this->enrollments->add($enrollment);
+            $enrollment->setCourses($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnrollment(Enrollments $enrollment): static
+    {
+        if ($this->enrollments->removeElement($enrollment)) {
+            // set the owning side to null (unless already changed)
+            if ($enrollment->getCourses() === $this) {
+                $enrollment->setCourses(null);
             }
         }
 
