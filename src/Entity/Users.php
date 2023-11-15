@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,9 +39,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToMany(mappedBy: 'instructors', targetEntity: Courses::class)]
+    private Collection $courses;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +174,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Courses>
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(Courses $course): static
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->setInstructors($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(Courses $course): static
+    {
+        if ($this->courses->removeElement($course)) {
+            // set the owning side to null (unless already changed)
+            if ($course->getInstructors() === $this) {
+                $course->setInstructors(null);
+            }
+        }
 
         return $this;
     }
