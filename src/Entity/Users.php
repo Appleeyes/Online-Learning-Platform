@@ -42,10 +42,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'instructors', targetEntity: Courses::class)]
     private Collection $courses;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Enrollments::class)]
+    private Collection $enrollments;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
         $this->courses = new ArrayCollection();
+        $this->enrollments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +206,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($course->getInstructors() === $this) {
                 $course->setInstructors(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Enrollments>
+     */
+    public function getEnrollments(): Collection
+    {
+        return $this->enrollments;
+    }
+
+    public function addEnrollment(Enrollments $enrollment): static
+    {
+        if (!$this->enrollments->contains($enrollment)) {
+            $this->enrollments->add($enrollment);
+            $enrollment->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnrollment(Enrollments $enrollment): static
+    {
+        if ($this->enrollments->removeElement($enrollment)) {
+            // set the owning side to null (unless already changed)
+            if ($enrollment->getUsers() === $this) {
+                $enrollment->setUsers(null);
             }
         }
 

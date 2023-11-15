@@ -22,6 +22,9 @@ class Enrollments
     #[ORM\Column(name: "enrollment_date")]
     private ?\DateTimeImmutable $enrollmentDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'enrollments')]
+    private ?Users $users = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +69,18 @@ class Enrollments
     public function setEnrollmentDate(\DateTimeImmutable $enrollmentDate): static
     {
         $this->enrollmentDate = $enrollmentDate;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): static
+    {
+        $this->users = $users;
 
         return $this;
     }
