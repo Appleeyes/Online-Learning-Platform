@@ -7,10 +7,12 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -27,7 +29,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: "created_at")]
     private ?DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(name: "updated_at")]
+    #[ORM\Column(name: "updated_at", nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
@@ -44,6 +46,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Enrollments::class)]
     private Collection $enrollments;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function __construct()
     {
@@ -238,6 +243,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $enrollment->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
