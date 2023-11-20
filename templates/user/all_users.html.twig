@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello users!
+{% endblock %}
+
+{% block body %}
+	{% if users|length > 0 %}
+		{% for user in users %}
+			<div>{{ user.username }}</div>
+		{% endfor %}
+	{% else %}
+		No users found
+	{% endif %}
+
+{% endblock %}
