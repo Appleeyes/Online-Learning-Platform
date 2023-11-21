@@ -34,9 +34,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_courses_index') }}">back to list</a>
+    <a class="mt-3 d-block" href="{{ path('app_courses_index') }}">back to list</a>
 
-    <a href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a>
+    <a class="mt-3 d-block btn btn-primary" href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a>
 
     {{ include('courses/_delete_form.html.twig') }}
 {% endblock %}

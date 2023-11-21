@@ -3,7 +3,7 @@
 {% block title %}Edit Courses{% endblock %}
 
 {% block body %}
-    <h1>Edit Courses</h1>
+    <h1>Edit {{ course.title }}</h1>
 
     {{ include('courses/_form.html.twig', {'button_label': 'Update'}) }}
 

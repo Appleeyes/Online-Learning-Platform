@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Courses;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,6 +18,10 @@ class CoursesType extends AbstractType
             ->add('hours')
             ->add('minutes')
             ->add('instructorId')
+            // ->add('instructors', CollectionType::class, [
+            //     'entry_type' => InstructorsType::class,
+            //     'entry_options' => ['label' =>false],
+            // ])
         ;
     }
 
