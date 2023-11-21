@@ -28,7 +28,7 @@ class Courses
     #[ORM\Column(name: "created_at")]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(name: "updated_at")]
+    #[ORM\Column(name: "updated_at", nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
@@ -39,6 +39,12 @@ class Courses
 
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollments::class)]
     private Collection $enrollments;
+
+    #[ORM\Column]
+    private ?int $hours = null;
+
+    #[ORM\Column]
+    private ?int $minutes = null;
 
     public function __construct()
     {
@@ -187,6 +193,30 @@ class Courses
                 $enrollment->setCourses(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHours(): ?int
+    {
+        return $this->hours;
+    }
+
+    public function setHours(int $hours): static
+    {
+        $this->hours = $hours;
+
+        return $this;
+    }
+
+    public function getMinutes(): ?int
+    {
+        return $this->minutes;
+    }
+
+    public function setMinutes(int $minutes): static
+    {
+        $this->minutes = $minutes;
 
         return $this;
     }
