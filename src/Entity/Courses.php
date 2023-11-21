@@ -16,9 +16,6 @@ class Courses
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: "instructor_id")]
-    private ?int $instructorId = null;
-
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -32,12 +29,13 @@ class Courses
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
-    private ?Users $instructors = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $instructor = null;
 
-    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lessons::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Lessons::class)]
     private Collection $lessons;
 
-    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollments::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Enrollments::class)]
     private Collection $enrollments;
 
     #[ORM\Column]
@@ -65,17 +63,6 @@ class Courses
         return $this;
     }
 
-    public function getInstructorId(): ?int
-    {
-        return $this->instructorId;
-    }
-
-    public function setInstructorId(int $instructorId): static
-    {
-        $this->instructorId = $instructorId;
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {
@@ -125,14 +112,14 @@ class Courses
         return $this;
     }
 
-    public function getInstructors(): ?Users
+    public function getInstructor(): ?Users
     {
-        return $this->instructors;
+        return $this->instructor;
     }
 
-    public function setInstructors(?Users $instructors): static
+    public function setInstructor(?Users $instructors): static
     {
-        $this->instructors = $instructors;
+        $this->instructor = $instructors;
 
         return $this;
     }
@@ -149,7 +136,7 @@ class Courses
     {
         if (!$this->lessons->contains($lesson)) {
             $this->lessons->add($lesson);
-            $lesson->setCourses($this);
+            $lesson->setCourse($this);
         }
 
         return $this;
@@ -159,8 +146,8 @@ class Courses
     {
         if ($this->lessons->removeElement($lesson)) {
             // set the owning side to null (unless already changed)
-            if ($lesson->getCourses() === $this) {
-                $lesson->setCourses(null);
+            if ($lesson->getCourse() === $this) {
+                $lesson->setCourse(null);
             }
         }
 
@@ -179,7 +166,7 @@ class Courses
     {
         if (!$this->enrollments->contains($enrollment)) {
             $this->enrollments->add($enrollment);
-            $enrollment->setCourses($this);
+            $enrollment->setCourse($this);
         }
 
         return $this;
@@ -189,8 +176,8 @@ class Courses
     {
         if ($this->enrollments->removeElement($enrollment)) {
             // set the owning side to null (unless already changed)
-            if ($enrollment->getCourses() === $this) {
-                $enrollment->setCourses(null);
+            if ($enrollment->getCourse() === $this) {
+                $enrollment->setCourse(null);
             }
         }
 

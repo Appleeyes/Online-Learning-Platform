@@ -13,22 +13,18 @@ class Progress
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: "enrollment_id")]
-    private ?int $enrollmentId = null;
-
-    #[ORM\Column(name: "lesson_id")]
-    private ?int $lessonId = null;
-
     #[ORM\Column]
     private ?int $status = null;
 
     #[ORM\Column(name: "last_accessed")]
     private ?\DateTimeImmutable $lastAccessed = null;
 
-    #[ORM\ManyToOne(inversedBy: 'progress')]
-    private ?Enrollments $enrollments = null;
+    #[ORM\ManyToOne(targetEntity: Enrollments::class, inversedBy: 'progresses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Enrollments $enrollment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'progresses')]
+    #[ORM\ManyToOne(targetEntity: Lessons::class, inversedBy: 'progresses')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Lessons $lessons = null;
 
     public function getId(): ?int
@@ -39,30 +35,6 @@ class Progress
     public function setId(int $id): static
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    public function getEnrollmentId(): ?int
-    {
-        return $this->enrollmentId;
-    }
-
-    public function setEnrollmentId(int $enrollmentId): static
-    {
-        $this->enrollmentId = $enrollmentId;
-
-        return $this;
-    }
-
-    public function getLessonId(): ?int
-    {
-        return $this->lessonId;
-    }
-
-    public function setLessonId(int $lessonId): static
-    {
-        $this->lessonId = $lessonId;
 
         return $this;
     }
@@ -91,14 +63,14 @@ class Progress
         return $this;
     }
 
-    public function getEnrollments(): ?Enrollments
+    public function getEnrollment(): ?Enrollments
     {
-        return $this->enrollments;
+        return $this->enrollment;
     }
 
-    public function setEnrollments(?Enrollments $enrollments): static
+    public function setEnrollment(?Enrollments $enrollment): static
     {
-        $this->enrollments = $enrollments;
+        $this->enrollment = $enrollment;
 
         return $this;
     }

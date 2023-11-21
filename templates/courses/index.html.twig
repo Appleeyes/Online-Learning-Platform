@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>InstructorId</th>
+                <th>Instructor</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>CreatedAt</th>
@@ -21,7 +21,7 @@
         {% for course in courses %}
             <tr>
                 <td>{{ course.id }}</td>
-                <td>{{ course.instructorId }}</td>
+                <td>{{ course.instructor.username }}</td>
                 <td>{{ course.title }}</td>
                 <td>{{ course.description }}</td>
                 <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>

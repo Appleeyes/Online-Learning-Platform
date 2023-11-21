@@ -51,7 +51,7 @@ class CoursesController extends AbstractController
     {
         return $this->render('courses/show.html.twig', [
             'course' => $course,
-            'title' => 'Information about Courses ' . $course->getId()
+            'title' => 'Information about Courses ' . $course->getTitle()
         ]);
     }
 

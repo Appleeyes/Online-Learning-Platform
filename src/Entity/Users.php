@@ -42,7 +42,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'instructors', targetEntity: Courses::class)]
+    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: Courses::class)]
     private Collection $courses;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Enrollments::class)]
@@ -200,7 +200,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
-            $course->setInstructors($this);
+            $course->setInstructor($this);
         }
 
         return $this;
@@ -210,8 +210,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->courses->removeElement($course)) {
             // set the owning side to null (unless already changed)
-            if ($course->getInstructors() === $this) {
-                $course->setInstructors(null);
+            if ($course->getInstructor() === $this) {
+                $course->setInstructor(null);
             }
         }
 
@@ -230,7 +230,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->enrollments->contains($enrollment)) {
             $this->enrollments->add($enrollment);
-            $enrollment->setUsers($this);
+            $enrollment->setUser($this);
         }
 
         return $this;
@@ -240,8 +240,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->enrollments->removeElement($enrollment)) {
             // set the owning side to null (unless already changed)
-            if ($enrollment->getUsers() === $this) {
-                $enrollment->setUsers(null);
+            if ($enrollment->getUser() === $this) {
+                $enrollment->setUser(null);
             }
         }
 

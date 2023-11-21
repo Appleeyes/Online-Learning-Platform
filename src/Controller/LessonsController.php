@@ -34,7 +34,6 @@ class LessonsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $lesson->setCourseId($request->get('id'));
             $entityManager->persist($lesson);
             $entityManager->flush();
 

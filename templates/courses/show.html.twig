@@ -14,7 +14,7 @@
 			</tr>
 			<tr>
 				<th>InstructorId</th>
-				<td>{{ course.instructorId }}</td>
+				<td>{{ course.instructor.username }}</td>
 			</tr>
 			<tr>
 				<th>Title</th>
@@ -40,6 +40,7 @@
 			<tr>
 				<th>#</th>
 				<th>Lesson Title</th>
+				<th>actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -47,6 +48,10 @@
 				<tr>
 					<td>{{ lesson.id }}</td>
 					<td>{{ lesson.title }}</td>
+					<td>
+                    <a href="{{ path('app_lessons_show', {'id': lesson.id}) }}">show</a>
+                    <a href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">edit</a>
+                </td>
 				</tr>
 			{% else %}
 				<tr>

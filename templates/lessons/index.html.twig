@@ -22,7 +22,7 @@
         {% for lesson in lessons %}
             <tr>
                 <td>{{ lesson.id }}</td>
-                <td>{{ lesson.courseId }}</td>
+                <td>{{ lesson.course.title }}</td>
                 <td>{{ lesson.title }}</td>
                 <td>{{ lesson.content }}</td>
                 <td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
