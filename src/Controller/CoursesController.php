@@ -7,6 +7,7 @@ use App\Entity\Enrollments;
 use App\Entity\Users;
 use App\Form\CoursesType;
 use App\Repository\CoursesRepository;
+use App\Repository\EnrollmentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,6 +88,15 @@ class CoursesController extends AbstractController
         $entityManager->persist($enrollment);
         $entityManager->flush();
         return $this->redirectToRoute('app_courses_show', ['id' => $request->get('id')]);
+    }
+
+    #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
+    public function unenroll(Request $request, Courses $course, EntityManagerInterface $entityManager, EnrollmentsRepository $enrollmentsRepository): Response
+    {
+        $enrollment = $enrollmentsRepository->findOneBy(['course' => $course, 'user' => $this->getUser()]);
+        $entityManager->remove($enrollment);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_courses_index', ['id' => $request->get('id')]);
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
