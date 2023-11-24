@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Courses;
+use App\Entity\Enrollments;
+use App\Entity\Users;
 use App\Form\CoursesType;
 use App\Repository\CoursesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,8 +21,10 @@ class CoursesController extends AbstractController
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
     public function index(CoursesRepository $coursesRepository): Response
     {
+        $currentUser = $this->getUser();
         return $this->render('courses/index.html.twig', [
             'courses' => $coursesRepository->findAll(),
+            'user' => $currentUser,
             'title' => 'List of courses'
         ]);
     }
@@ -72,6 +76,17 @@ class CoursesController extends AbstractController
             'form' => $form,
             'title' => 'Edit course ' . $course->getId()
         ]);
+    }
+
+    #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
+    public function enroll(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
+    {
+        $enrollment = new Enrollments();
+        $enrollment->setCourse($course);
+        $enrollment->setUser($this->getUser());
+        $entityManager->persist($enrollment);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_courses_show', ['id' => $request->get('id')]);
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]

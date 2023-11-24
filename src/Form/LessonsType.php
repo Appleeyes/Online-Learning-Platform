@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Courses;
 use App\Entity\Lessons;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,7 @@ class LessonsType extends AbstractType
                 'choice_label' => 'title'
             ])
             ->add('title')
-            ->add('content')
+            ->add('content', CKEditorType::class)
         ;
     }
 

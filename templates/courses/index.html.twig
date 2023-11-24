@@ -1,43 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Courses index{% endblock %}
+{% block title %}Courses index
+{% endblock %}
 
 {% block body %}
-    <h1>Courses index</h1>
+	<h1>Courses index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Instructor</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for course in courses %}
-            <tr>
-                <td>{{ course.id }}</td>
-                <td>{{ course.instructor.username }}</td>
-                <td>{{ course.title }}</td>
-                <td>{{ course.description }}</td>
-                <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_courses_show', {'id': course.id}) }}">show</a>
-                    <a href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Instructor</th>
+				<th>Title</th>
+				<th>Description</th>
+				<th>CreatedAt</th>
+				<th>UpdatedAt</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for course in courses %}
+				<tr>
+					<td>{{ course.id }}</td>
+					<td>{{ course.instructor.username }}</td>
+					<td>{{ course.title }}</td>
+					<td>{{ course.description }}</td>
+					<td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('app_courses_show', {'id': course.id}) }}">show</a>
+						<a href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a>
+						{% set found = false %}
+						{% for enrollment in course.enrollments %}
+							{% if user.id == enrollment.user.id %}
+								{% set found = true %}
+								<a href="{{ path('app_courses_show', {'id': course.id}) }}">Resume</a>
+							{% endif %}
+						{% endfor %}
+						{% if not found %}
+							<a href="{{ path('app_courses_enroll', {'id': course.id}) }}">enroll</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_courses_new') }}">Create new</a>
+	<a href="{{ path('app_courses_new') }}">Create new</a>
 {% endblock %}
