@@ -2,31 +2,34 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
 			{% block title %}
 				AppleEyes Online Learning Platform
 			{% endblock %}
 		</title>
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<meta content="" name="keywords">
+		<meta
+		content="" name="description">
 
 		<script src="https://kit.fontawesome.com/47027db1aa.js" crossorigin="anonymous"></script>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-		<script src="js/modernizr-2.6.2.min.js"></script>
+		
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 		{% block stylesheets %}
 			<link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet"/>
 			<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 			<link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
-			<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+			<link
+			href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 
-			<link rel="stylesheet" href="{{ asset('css/profile/animate.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/profile/icomoon.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/profile/bootstrap.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/profile/style.css') }}">
-
+			{# courses #}
+			<link rel="stylesheet" type="text/css" href="{{ asset('css/courses//bootstrap4/bootstrap.min.css') }}">
+			<link href="{{ asset('plugins/fontawesome-free-5.0.1/css/fontawesome-all.css') }}" rel="stylesheet" type="text/css">
+			<link rel="stylesheet" type="text/css" href="{{ asset('css/courses/courses_styles.css') }}">
+			<link rel="stylesheet" type="text/css" href="{{ asset('css/courses/courses_responsive.css') }}">
 		{% endblock %}
-
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -59,22 +62,24 @@
 						{% endif %}
 					</ul>
 				</div>
-			</body>
 		</nav>
-		<div > {% block body %}{% endblock %}
-			</div>
 
-		{% block javascripts %}
-			<script src="{{ asset('js/profile/jquery.min.js') }}"></script>
-			<script src="{{ asset('js/profile/jquery.easing.1.3.js') }}"></script>
-			<script src="{{ asset('js/profile/bootstrap.min.js') }}"></script>
-			<script src="{{ asset('js/profile/jquery.waypoints.min.js') }}"></script>
-			<script src="{{ asset('js/profile/jquery.stellar.min.js') }}"></script>
-			<script src="{{ asset('js/profile/jquery.easypiechart.min.js') }}"></script>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
-			<script src="{{ asset('js/profile/google_map.js') }}"></script>
-			<script src="{{ asset('js/profile/main.js') }}"></script>
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-		{% endblock %}
-		</body>
-	</html>
+		{% block body %}{% endblock %}
+
+		{{ include('shared/_footer.html.twig') }}
+
+
+		{# courses #}
+		<script src="{{ asset('js/courses/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('css/courses/bootstrap4/popper.js') }}"></script>
+		<script src="{{ asset('css/courses/bootstrap4/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('plugins/greensock/TweenMax.min.js') }}"></script>
+		<script src="{{ asset('plugins/greensock/TimelineMax.min.js') }}"></script>
+		<script src="{{ asset('plugins/scrollmagic/ScrollMagic.min.js') }}"></script>
+		<script src="{{ asset('plugins/greensock/animation.gsap.min.js') }}"></script>
+		<script src="{{ asset('plugins/greensock/ScrollToPlugin.min.js') }}"></script>
+		<script src="{{ asset('plugins/scrollTo/jquery.scrollTo.min.js') }}"></script>
+		<script src="{{ asset('plugins/easing/easing.js') }}"></script>
+		<script src="{{ asset('js/courses/courses_custom.js') }}"></script>
+	</body>
+</html>
