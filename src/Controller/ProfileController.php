@@ -25,8 +25,9 @@ class ProfileController extends AbstractController
         $user = $this->getUser();
         return $this->render('profile/index.html.twig', [
             'user' => $user,
+            'user_roles' => $user->getRoles(),
             'image_path' => $user->getProfile()?->getImage(),
-            'title' => 'Profile of <br> ' . $user->getUsername()
+            'title' => 'Profile of <br> ' . $user->getUsername(),
         ]);
     }
 

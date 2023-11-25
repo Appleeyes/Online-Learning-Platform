@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProfileRepository;
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
@@ -29,6 +30,9 @@ class Profile
     #[ORM\OneToOne(inversedBy: 'profile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $user = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $about = null;
 
     public function getId(): ?int
     {
@@ -59,9 +63,13 @@ class Profile
         return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(?DateTimeImmutable $dateOfBirth): void
+    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): void
     {
-        $this->dateOfBirth = $dateOfBirth;
+        if ($dateOfBirth instanceof \DateTimeInterface) {
+            $this->dateOfBirth = DateTimeImmutable::createFromMutable($dateOfBirth);
+        } else {
+            $this->dateOfBirth = $dateOfBirth;
+        }
     }
 
     public function getCountry(): ?string
@@ -96,6 +104,18 @@ class Profile
     public function setUser(Users $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(?string $about): static
+    {
+        $this->about = $about;
 
         return $this;
     }

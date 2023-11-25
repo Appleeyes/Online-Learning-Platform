@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Profile;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProfileType extends AbstractType
 {
@@ -20,9 +21,16 @@ class ProfileType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
-            ->add('dateOfBirth')
+            ->add('dateOfBirth', DateType::class, [
+                'label' => 'Date of Birth',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'html5' => false,
+                'attr' => ['class' => 'js-datepicker'],
+            ])
             ->add('country')
             ->add('address')
+            ->add('about', CKEditorType::class)
             ->add('Submit', SubmitType::class, [
                 'label' => 'Save Profile',
             ])

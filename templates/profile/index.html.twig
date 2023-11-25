@@ -11,9 +11,11 @@
 	{% if user.profile %}
 		<img class="img-fluid" src="{{ asset('/uploads/profile/') ~ image_path }}" alt="">
 		<h5 class="mb-0">{{ user.username }}</h5>
+		<p>{{ user_roles | join(', ') }}</p>
 		<p>{{ user.profile.country ? user.profile.country : '' }}</p>
 		<p>{{ user.profile.address ?  user.profile.address : ''}}</p>
 		<p>{{ user.profile.dateOfBirth ? user.profile.dateOfBirth|date('d.m.Y') : '' }}</p>
+		<p>{{ user.profile.about ?  user.profile.about |raw : ''}}</p>
 		<div class="row">
 			<div class="col-12 text-end">
 				<a href="{{ path('app_profile_edit', {id: user.profile.id}) }}" class="btn btn-primary">Edit profile</a>
