@@ -1,43 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lessons{% endblock %}
-
-{% block body %}
-    <h1>Lessons</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ lesson.id }}</td>
-            </tr>
-            <tr>
-                <th>CourseId</th>
-                <td>{{ lesson.course.title }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ lesson.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ lesson.content }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_lessons_index') }}">back to list</a>
-
-    <a href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">edit</a>
-
-    {{ include('lessons/_delete_form.html.twig') }}
+{% block title %}Lessons
 {% endblock %}
 
+{% block body %}
+	<h1>Lessons</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ lesson.id }}</td>
+			</tr>
+			<tr>
+				<th>CourseId</th>
+				<td>{{ lesson.course.title }}</td>
+			</tr>
+			<tr>
+				<th>Title</th>
+				<td>{{ lesson.title }}</td>
+			</tr>
+			<tr>
+				<th>Content</th>
+				<td>{{ lesson.content |raw }}</td>
+			</tr>
+			<tr>
+				<th>CreatedAt</th>
+				<td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>UpdatedAt</th>
+				<td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_lessons_index') }}">back to list</a>
+
+    {% set found = false %}
+	{% for enrollment in app.user.enrollments %}
+		{% for progress in enrollment.progresses %}
+			{% if progress.status == 1 and lesson.id == progress.lessons.id %}
+				{% set found = true %}
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+	{% if not found %}
+			<div class="col-auto">
+				<a class="btn btn-success" href="{{ path('app_lessons_complete', { id: lesson.id }) }}">Complete Lesson</a>
+			</div>
+	{% endif %}
+
+	<a href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">edit</a>
+
+	{{ include('lessons/_delete_form.html.twig') }}
+{% endblock %}

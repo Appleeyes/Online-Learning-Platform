@@ -45,7 +45,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: Courses::class)]
     private Collection $courses;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Enrollments::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Enrollments::class)]
     private Collection $enrollments;
 
     #[ORM\Column(type: 'boolean')]

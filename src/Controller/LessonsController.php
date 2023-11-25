@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Lessons;
+use App\Entity\Progress;
 use App\Form\LessonsType;
+use App\Repository\EnrollmentsRepository;
 use App\Repository\LessonsRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,5 +90,20 @@ class LessonsController extends AbstractController
         }
 
         return $this->redirectToRoute('app_lessons_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/complete', name: 'app_lessons_complete', methods: ['GET'])]
+    public function complete(Lessons $lessons, EnrollmentsRepository $enrollmentsRepository, EntityManagerInterface $entityManager):Response
+    {
+        $enrollment = $enrollmentsRepository->findOneBy(['course' => $lessons->getCourse(), 'user' => $this->getUser()]);
+        $progress = new Progress();
+        $progress->setLessons($lessons);
+        $progress->setStatus(1);
+        $progress->setLastAccessed(new DateTimeImmutable());
+        $progress->setEnrollment($enrollment);
+
+        $entityManager->persist($progress);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_courses_show', ['id' => $lessons->getCourse()->getId()]);
     }
 }
