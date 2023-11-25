@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/courses')]
-#[IsGranted('ROLE_INSTRUCTOR')]
 class CoursesController extends AbstractController
 {
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]

@@ -1,53 +1,94 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Courses index{% endblock %}
+{% block title %}Courses index
+{% endblock %}
 
 {% block body %}
-	<h1>Courses index</h1>
+	<!-- Home -->
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Instructor</th>
-				<th>Title</th>
-				<th>Description</th>
-				<th>CreatedAt</th>
-				<th>UpdatedAt</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for course in courses %}
-				<tr>
-					<td>{{ course.id }}</td>
-					<td>{{ course.instructor.username }}</td>
-					<td>{{ course.title }}</td>
-					<td>{{ course.description }}</td>
-					<td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-					<td>
-						<a href="{{ path('app_courses_show', {'id': course.id}) }}">show</a>
-						<a href="{{ path('app_courses_edit', {'id': course.id}) }}">edit</a>
-						{% set found = false %}
-						{% for enrollment in course.enrollments %}
-							{% if user.id == enrollment.user.id %}
-								{% set found = true %}
-								<a href="{{ path('app_courses_show', {'id': course.id}) }}">Resume</a>
-							{% endif %}
-						{% endfor %}
-						{% if not found %}
-							<a href="{{ path('app_courses_enroll', {'id': course.id}) }}">enroll</a>
-						{% endif %}
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="7">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/courses_background.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>Courses</h1>
+		</div>
+	</div>
 
-	<a href="{{ path('app_courses_new') }}">Create new</a>
+	<!-- Popular -->
+
+	<div class="popular page_section">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="section_title text-center">
+						<h1>Popular Courses</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row course_boxes">
+				{% for course in courses %}
+					<!-- Popular Course Item -->
+					<div class="col-lg-4 course_box">
+						<div class="card position-relative">
+							<!-- Image -->
+							<img class="card-img-top" src="{{ asset('images/course_1.jpg') }}" alt="https://unsplash.com/@kellybrito">
+							<!-- Overlay buttons on the image -->
+							<div class="overlay-buttons">
+								<a href="{{ path('app_courses_show', {'id': course.id}) }}">View</a>
+								{% if not is_granted('ROLE_INSTRUCTOR') %}
+									{% set found = false %}
+									{% for enrollment in course.enrollments %}
+										{% if user.id == enrollment.user.id %}
+											{% set found = true %}
+											<a href="{{ path('app_courses_show', {'id': course.id}) }}">Resume</a>
+										{% endif %}
+									{% endfor %}
+									{% if not found %}
+										<a href="{{ path('app_courses_enroll', {'id': course.id}) }}">Enroll</a>
+									{% endif %}
+								{% else %}
+									<a href="{{ path('app_courses_edit', {'id': course.id}) }}">Edit</a>
+								{% endif %}
+							</div>
+							<div class="card-body text-center">
+								<div class="card-title">
+									<a href="courses.html">{{ course.title }}</a>
+								</div>
+								<div class="card-text">{{ course.description }}...</div>
+							</div>
+							<div class="price_box d-flex flex-row align-items-center">
+								<div class="d-flex border-top mr-3">
+									<small class="flex-fill text-center border-end py-2">
+										<i class="fa fa-clock text-primary me-2"></i>
+										{{ course.hours }}:{{ course.minutes }}
+										Hrs</small>
+								</div>
+								<div class="d-flex border-top">
+									<small class="flex-fill text-center py-2">
+										<i class="fa fa-user text-primary me-2"></i>
+										{{ course.createdAt ? course.createdAt|date('d.m.Y') : '' }}</small>
+								</div>
+								<div class="course_author_name">{{ course.instructor.fullname }}
+									<span>Author</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				{% else %}
+					<div class="col-12">
+						<h5>No records found</h5>
+					</div>
+				{% endfor %}
+			</div>
+
+			{% if is_granted('ROLE_INSTRUCTOR') %}
+				<a class="mt-3 btn btn-primary" href="{{ path('app_courses_new') }}">Create new</a>
+			{% endif %}
+		</div>
+	</div>
+
+
 {% endblock %}

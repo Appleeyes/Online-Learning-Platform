@@ -744,6 +744,26 @@ section
 	height: 48px;
 }
 
+.overlay-buttons {
+    position: absolute;
+	display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.overlay-buttons a {
+    margin: 0 10px;
+	background-color: #ffb606;
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+
 /*********************************
 9. Popular
 *********************************/
@@ -823,9 +843,15 @@ section
 {
 	font-size: 14px;
 	font-weight: 500;
-	color: #1a1a1a;
+	color: #fff;
 	padding-left: 20px;
-	margin-top: 7px;
+	height: 100%;
+	background: #ffb606;
+	margin-left: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 .course_author_name span
 {
