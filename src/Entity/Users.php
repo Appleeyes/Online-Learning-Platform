@@ -54,6 +54,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Profile $profile = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $fullname = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -276,6 +279,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->profile = $profile;
+
+        return $this;
+    }
+
+    public function getFullname(): ?string
+    {
+        return $this->fullname;
+    }
+
+    public function setFullname(string $fullname): static
+    {
+        $this->fullname = $fullname;
 
         return $this;
     }
