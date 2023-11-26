@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses index
+{% endblock %}
+
+{% block body %}
+	<!-- Home -->
+
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/courses_background.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>Courses</h1>
+		</div>
+	</div>
+
+	<!-- Popular -->
+
+	<div class="popular page_section">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="section_title text-center">
+						<h1>Enrolled Courses</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row course_boxes">
+				{% for course in enrolledCourses %}
+					<!-- Popular Course Item -->
+					<div class="col-lg-4 course_box">
+						<div
+							class="card position-relative">
+							<!-- Image -->
+							<img
+							class="card-img-top" src="{{ asset('images/course_1.jpg') }}" alt="https://unsplash.com/@kellybrito">
+							<!-- Overlay buttons on the image -->
+							<div class="overlay-buttons">
+								<a href="{{ path('app_courses_show', {'id': course.id}) }}">View</a>
+								{% if not is_granted('ROLE_INSTRUCTOR') %}
+									{% set found = false %}
+									{% for enrollment in course.enrollments %}
+										{% if user.id == enrollment.user.id %}
+											{% set found = true %}
+											<a href="{{ path('app_courses_show', {'id': course.id}) }}">Resume</a>
+										{% endif %}
+									{% endfor %}
+									{% if not found %}
+										<a href="{{ path('app_courses_enroll', {'id': course.id}) }}">Enroll</a>
+									{% endif %}
+								{% endif %}
+							</div>
+							<div class="card-body text-center">
+								<div class="card-title">
+									<a href="{{ path('app_courses_show', {'id': course.id}) }}">{{ course.title }}</a>
+								</div>
+								<div class="card-text">
+									{% set words = course.description|split(' ') %}
+									{{ words|slice(0, 5)|join(' ') }}
+									{% if words|length > 5 %}...
+									{% endif %}
+								</div>
+							</div>
+							<div class="price_box d-flex flex-row align-items-center">
+								<div class="d-flex border-top mr-3">
+									<small class="flex-fill text-center border-end py-2">
+										<i class="fa fa-clock text-primary me-2"></i>
+										{{ course.hours }}:{{ course.minutes }}
+										Hrs</small>
+								</div>
+								<div class="d-flex border-top">
+									<small class="flex-fill text-center py-2">
+										<i class="fa fa-user text-primary me-2"></i>
+										{{ course.createdAt ? course.createdAt|date('d.m.Y') : '' }}</small>
+								</div>
+								<div class="course_author_name">{{ course.instructor.fullname }}
+									<span>Author</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% else %}
+					<div class="col-12">
+						<h5>No records found</h5>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

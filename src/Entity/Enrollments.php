@@ -26,7 +26,7 @@ class Enrollments
     #[ORM\JoinColumn(nullable: false)]
     private ?Courses $course = null;
 
-    #[ORM\OneToMany(mappedBy: 'enrollment', targetEntity: Progress::class)]
+    #[ORM\OneToMany(mappedBy: 'enrollment', targetEntity: Progress::class, cascade: ['remove'])]
     private Collection $progresses;
 
     public function __construct()

@@ -28,7 +28,7 @@
 							{% elseif is_granted('ROLE_INSTRUCTOR') %}
 							    <a href="{{ path('app_instructor') }}">Instructor panel</a>
 							{% elseif is_granted('ROLE_STUDENT') %}
-							    <a href="#">My Courses</a>
+							    <a href="{{ path('app_student_courses') }}">My Courses</a>
 						    {% elseif is_granted('ROLE_USER') %}
 							    <a href="#">News</a>
 							{% endif %}
@@ -94,7 +94,7 @@
 							{% elseif is_granted('ROLE_INSTRUCTOR') %}
 							    <a href="{{ path('app_instructor') }}">Instructor panel</a>
 							{% elseif is_granted('ROLE_STUDENT') %}
-							    <a href="#">My Courses</a>
+							    <a href="{{ path('app_student_courses') }}">My Courses</a>
 						    {% elseif is_granted('ROLE_USER') %}
 							    <a href="#">News</a>
 							{% endif %}
