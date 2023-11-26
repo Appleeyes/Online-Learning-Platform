@@ -4,54 +4,66 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Lessons</h1>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ lesson.id }}</td>
-			</tr>
-			<tr>
-				<th>CourseId</th>
-				<td>{{ lesson.course.title }}</td>
-			</tr>
-			<tr>
-				<th>Title</th>
-				<td>{{ lesson.title }}</td>
-			</tr>
-			<tr>
-				<th>Content</th>
-				<td>{{ lesson.content |raw }}</td>
-			</tr>
-			<tr>
-				<th>CreatedAt</th>
-				<td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-			</tr>
-			<tr>
-				<th>UpdatedAt</th>
-				<td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-			</tr>
-		</tbody>
-	</table>
+	<!-- Home -->
 
-	<a href="{{ path('app_lessons_index') }}">back to list</a>
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/course_6.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>{{ lesson.title }}</h1>
+		</div>
+	</div>
 
-    {% set found = false %}
-	{% for enrollment in app.user.enrollments %}
-		{% for progress in enrollment.progresses %}
-			{% if progress.status == 1 and lesson.id == progress.lessons.id %}
-				{% set found = true %}
-			{% endif %}
-		{% endfor %}
-	{% endfor %}
-	{% if not found %}
-			<div class="col-auto">
-				<a class="btn btn-success" href="{{ path('app_lessons_complete', { id: lesson.id }) }}">Complete Lesson</a>
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-12">
+				<div style="display: flex; justify-content: space-around;">
+					<div>
+						<i class="fa fa-user-tie text-primary me-2"></i>
+						{{ lesson.course.title }}
+					</div>
+					<div>
+						<i class="fa fa-clock text-primary me-2"></i>
+						{{ lesson.title }}
+					</div>
+					<div>
+						<i class="fa fa-user text-primary me-2"></i>
+						{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}
+					</div>
+				</div>
+				<h3 style="text-align: center; margin-top: 30px; margin-bottom: 30px;">{{ lesson.content |raw }}</h3>
 			</div>
-	{% endif %}
+		</div>
 
-	<a href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">edit</a>
-
-	{{ include('lessons/_delete_form.html.twig') }}
+		<div class="row mt-5 mb-5">
+			<div class="col text-end">
+				<a class="btn btn-primary" href="{{ path('app_courses_show', {'id': lesson.course.id}) }}">Back to list</a>
+			</div>
+			{% set found = false %}
+			{% for enrollement in app.user.enrollments %}
+				{% for progress in enrollement.progresses %}
+					{% if progress.status == 1 and lesson.id == progress.lessons.id %}
+						{% set found = true %}
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+			{% if not found %}
+				{% if not is_granted('ROLE_INSTRUCTOR') %}
+					<div class="col-auto">
+						<a class="btn btn-success" href="{{ path('app_lessons_complete', {id: lesson.id}) }}">Complete</a>
+					</div>
+				{% endif %}
+			{% endif %}
+			{% if is_granted('ROLE_INSTRUCTOR') %}
+				<div class="col-auto">
+					<a class="btn btn-primary" href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">Edit</a>
+				</div>
+				<div class="col-auto">
+					{{ include('lessons/_delete_form.html.twig') }}
+				</div>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

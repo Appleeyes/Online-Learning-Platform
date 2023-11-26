@@ -40,7 +40,7 @@ class LessonsController extends AbstractController
             $entityManager->persist($lesson);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lessons_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_show', ['id' => $lesson->getCourse()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('lessons/new.html.twig', [
@@ -70,7 +70,7 @@ class LessonsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lessons_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_lessons_show', ['id' => $lesson->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('lessons/edit.html.twig', [
@@ -89,7 +89,7 @@ class LessonsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_lessons_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_courses_show', ['id' => $lesson->getCourse()->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/complete', name: 'app_lessons_complete', methods: ['GET'])]
