@@ -11,7 +11,7 @@
 			<div class="home_background prlx" style="background-image:url({{ asset('images/courses_background.jpg') }})"></div>
 		</div>
 		<div class="home_content">
-			<h1>Courses</h1>
+			<h1>Courses By You</h1>
 		</div>
 	</div>
 
@@ -38,23 +38,12 @@
 							class="card-img-top" src="{{ asset('images/course_1.jpg') }}" alt="https://unsplash.com/@kellybrito">
 							<!-- Overlay buttons on the image -->
 							<div class="overlay-buttons">
-								<a href="{{ path('app_courses_show', {'id': course.id}) }}">View</a>
-								{% if not is_granted('ROLE_INSTRUCTOR') %}
-									{% set found = false %}
-									{% for enrollment in course.enrollments %}
-										{% if user.id == enrollment.user.id %}
-											{% set found = true %}
-											<a href="{{ path('app_courses_show', {'id': course.id}) }}">Resume</a>
-										{% endif %}
-									{% endfor %}
-									{% if not found %}
-										<a href="{{ path('app_courses_enroll', {'id': course.id}) }}">Enroll</a>
-									{% endif %}
-								{% endif %}
+								<a href="{{ path('app_instructor_course_show', {'id': course.id}) }}">View</a>
+								<a href="{{ path('app_courses_edit', {'id': course.id}) }}">Edit</a>
 							</div>
 							<div class="card-body text-center">
 								<div class="card-title">
-									<a href="{{ path('app_courses_show', {'id': course.id}) }}">{{ course.title }}</a>
+									<a href="{{ path('app_instructor_course_show', {'id': course.id}) }}">{{ course.title }}</a>
 								</div>
 								<div class="card-text">
 									{% set words = course.description|split(' ') %}
@@ -88,8 +77,9 @@
 					</div>
 				{% endfor %}
 			</div>
+
+			<a class="mt-3 btn btn-primary" href="{{ path('app_courses_new') }}">Create new</a>
 		</div>
 	</div>
-
 
 {% endblock %}

@@ -47,7 +47,7 @@ class CoursesController extends AbstractController
             $entityManager->persist($course);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_instructor', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courses/new.html.twig', [
@@ -75,7 +75,7 @@ class CoursesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_instructor', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courses/edit.html.twig', [
@@ -113,6 +113,6 @@ class CoursesController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_instructor', [], Response::HTTP_SEE_OTHER);
     }
 }

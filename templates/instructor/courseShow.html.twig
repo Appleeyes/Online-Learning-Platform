@@ -46,27 +46,16 @@
 						class="card-img-top" src="{{ asset('images/course_3.jpg') }}" alt="https://unsplash.com/@kellybrito">
 						<!-- Overlay buttons on the image -->
 						<div class="overlay-buttons">
-							{% if is_granted('ROLE_INSTRUCTOR') %}
-								<a href="{{ path('app_lessons_show', {'id': lesson.id}) }}">View</a>
-								<a href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">Edit</a>
-							{% else %}
-								<a href="{{ path('app_lessons_show', {'id': lesson.id}) }}">Start</a>
-							{% endif %}
+							<a href="{{ path('app_instructor_course_lessons', {'id': lesson.id}) }}">View</a>
+							<a href="{{ path('app_lessons_edit', {'id': lesson.id}) }}">Edit</a>
 						</div>
 						<div class="card-body text-center">
 							<div class="card-title">
-								<a href="{{ path('app_lessons_show', {'id': lesson.id}) }}">{{ lesson.title }}</a>
+								<a href="{{ path('app_instructor_course_lessons', {'id': lesson.id}) }}">{{ lesson.title }}</a>
 							</div>
 							<div class="card-text">
 								<div class="text-center p-4 pb-3">
 									<h5 class="mb-4">{{ lesson.title }}</h5>
-									{% for enrollement in app.user.enrollments %}
-										{% for progress in enrollement.progresses %}
-											{% if progress.status == 1 and lesson.id == progress.lessons.id %}
-												<h6 class="text-danger mt-n3">COMPLETED</h6>
-											{% endif %}
-										{% endfor %}
-									{% endfor %}
 								</div>
 							</div>
 						</div>
@@ -80,16 +69,15 @@
 		</div>
 
 		<div class="row mt-5 mb-5">
-            <div class="col-auto">
-                <a class="btn btn-primary" href="{{ path('app_courses_index') }}">Back to list</a>
-            </div>
-            {% for enrollemnt in course.enrollments %}
-                {% if app.user.id == enrollemnt.user.id %}
-                    <div class="col-auto">
-                        <a class="btn btn-warning" href="{{ path('app_courses_unenroll', {id: course.id}) }}">Unenroll</a>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
+			<div class="col text-end">
+				<a class="btn btn-primary" href="{{ path('app_lessons_new', { id: course.id }) }}">Add lesson</a>
+			</div>
+			<div class="col-auto">
+				{{ include('courses/_delete_form.html.twig') }}
+			</div>
+			<div class="col-auto">
+				<a class="btn btn-primary" href="{{ path('app_instructor') }}">Back to list</a>
+			</div>
+		</div>
 	</div>
 {% endblock %}

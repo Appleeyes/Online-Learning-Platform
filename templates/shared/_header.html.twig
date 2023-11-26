@@ -25,11 +25,13 @@
 						<li class="main_nav_item">
 							{% if is_granted("ROLE_ADMIN") %}
 								<a href="{{ path('admin') }}">Admin panel</a>
+							{% elseif is_granted('ROLE_INSTRUCTOR') %}
+							    <a href="{{ path('app_instructor') }}">Instructor panel</a>
+							{% elseif is_granted('ROLE_STUDENT') %}
+							    <a href="#">My Courses</a>
+						    {% elseif is_granted('ROLE_USER') %}
+							    <a href="#">News</a>
 							{% endif %}
-						</li>
-						<li class="main_nav_item">
-							<a href="#">news</a>
-						</li>
 						<li class="main_nav_item">
 							<a href="#">contact</a>
 						</li>
@@ -88,11 +90,14 @@
 					</li>
 					<li class="menu_item menu_mm">
 						{% if is_granted("ROLE_ADMIN") %}
-							<a href="{{ path('admin') }}">Admin panel</a>
-						{% endif %}
-					</li>
-					<li class="menu_item menu_mm">
-						<a href="#">News</a>
+								<a href="{{ path('admin') }}">Admin panel</a>
+							{% elseif is_granted('ROLE_INSTRUCTOR') %}
+							    <a href="{{ path('app_instructor') }}">Instructor panel</a>
+							{% elseif is_granted('ROLE_STUDENT') %}
+							    <a href="#">My Courses</a>
+						    {% elseif is_granted('ROLE_USER') %}
+							    <a href="#">News</a>
+							{% endif %}
 					</li>
 					<li class="menu_item menu_mm">
 						<a href="#">Contact</a>

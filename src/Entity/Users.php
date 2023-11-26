@@ -57,6 +57,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $fullname = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isInstructor = false;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -291,6 +294,34 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFullname(string $fullname): static
     {
         $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isInstructor
+     */ 
+    public function getIsInstructor()
+    {
+        return $this->isInstructor;
+    }
+
+    /**
+     * Set the value of isInstructor
+     *
+     * @return  self
+     */ 
+    public function setIsInstructor($isInstructor)
+    {
+        $this->isInstructor = $isInstructor;
+
+        $roles = $this->getRoles();
+        if ($isInstructor && !in_array("ROLE_INSTRUCTOR", $roles)) {
+            $roles[] = "ROLE_INSTRUCTOR";
+        } elseif (!$isInstructor && in_array("ROLE_INSTRUCTOR", $roles)) {
+            $roles = array_diff($roles, ["ROLE_INSTRUCTOR"]);
+        }
+        $this->setRoles($roles);
 
         return $this;
     }
