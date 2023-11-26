@@ -54,7 +54,7 @@
 							</div>
 							<div class="card-body text-center">
 								<div class="card-title">
-									<a href="courses.html">{{ course.title }}</a>
+									<a href="{{ path('app_courses_show', {'id': course.id}) }}">{{ course.title }}</a>
 								</div>
 								<div class="card-text">{{ course.description }}...</div>
 							</div>
