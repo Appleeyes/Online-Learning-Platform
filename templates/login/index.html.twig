@@ -3,21 +3,32 @@
 {% block title %}Login Page!
 {% endblock %}
 
-{% block body %}
-<h1>Login Page</h1>
-<h3>Please input your credentials</h3>
-	{% if error %}
-		<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-	{% endif %}
-	<form action="{{ path('app_login') }}" method="post">
-		<label for="username">Username:</label>
-		<input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}">
+{% block main_content %}
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/course_2.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>Login Form</h1>
+		</div>
+	</div>
 
-		<label for="password">Password:</label>
-		<input class="form-control" type="password" id="password" name="_password">
+	<div class="container mt-5 mb-5">
+		<h3 style="text-align: center;">Please input your credentials</h3>
+		{% if error %}
+			<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+		<form action="{{ path('app_login') }}" method="post">
+			<label for="username">Username:</label>
+			<input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}">
 
-		<input type="hidden" name="_target_path" value="/profile">
+			<label for="password">Password:</label>
+			<input class="form-control" type="password" id="password" name="_password">
 
-		<button type="submit" class="btn btn-success">Login</button>
-	</form>
+			<input type="hidden" name="_target_path" value="/profile">
+
+			<span style="display: block; margin-top: 10px; margin-bottom: 10px;">Don't have an account? <a href="{{ path('app_register') }}">Register</a></span>
+			<button type="submit" class="btn btn-success">Login</button>
+		</form>
+	</div>
 {% endblock %}

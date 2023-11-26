@@ -12,7 +12,8 @@ class LessonsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('title')
+        $builder
+            ->add('title')
             ->add('content', CKEditorType::class)
         ;
     }
