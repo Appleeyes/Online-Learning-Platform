@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
+use DateTimeImmutable;
+use App\Entity\Courses;
 use App\Entity\Lessons;
 use App\Entity\Progress;
 use App\Form\LessonsType;
-use App\Repository\EnrollmentsRepository;
+use App\Repository\CoursesRepository;
 use App\Repository\LessonsRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EnrollmentsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/lessons')]
 class LessonsController extends AbstractController
@@ -30,9 +32,11 @@ class LessonsController extends AbstractController
 
     #[Route('/new/course/{id}', name: 'app_lessons_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Courses $course): Response
     {
         $lesson = new Lessons();
+        $lesson->setCourse($course);
+
         $form = $this->createForm(LessonsType::class, $lesson);
         $form->handleRequest($request);
 
@@ -40,7 +44,7 @@ class LessonsController extends AbstractController
             $entityManager->persist($lesson);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_show', ['id' => $lesson->getCourse()->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_show', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('lessons/new.html.twig', [
@@ -49,6 +53,8 @@ class LessonsController extends AbstractController
             'title' => 'Create a lesson'
         ]);
     }
+
+
 
     #[Route('/{id}', name: 'app_lessons_show', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]

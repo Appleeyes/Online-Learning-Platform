@@ -3,9 +3,23 @@
 {% block title %}New Lessons{% endblock %}
 
 {% block body %}
-    <h1>Create new Lesson</h1>
+<!-- Home -->
 
-    {{ include('lessons/_form.html.twig') }}
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/course_2.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>New Lesson</h1>
+		</div>
+	</div>
 
-    <a href="{{ path('app_lessons_index') }}">back to list</a>
+    <div class="container mt-5 mb-5">
+		{{ include('lessons/_form.html.twig', {'button_label': 'Save'}) }}
+		<div class="row">
+			<div class="col text-end">
+				<a class="btn btn-primary" href="{{ path('app_courses_show', {'id': lesson.course.id}) }}">Back to list</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}

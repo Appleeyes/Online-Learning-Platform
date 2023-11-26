@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Courses;
-use App\Entity\Enrollments;
 use App\Entity\Users;
+use App\Entity\Courses;
 use App\Form\CoursesType;
+use App\Entity\Enrollments;
 use App\Repository\CoursesRepository;
-use App\Repository\EnrollmentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EnrollmentsRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/courses')]
 class CoursesController extends AbstractController
@@ -30,9 +31,15 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $course = new Courses();
+        // Get the current user
+        $currentUser = $security->getUser();
+
+        // Set the current user as the instructor
+        $course->setInstructor($currentUser);
+
         $form = $this->createForm(CoursesType::class, $course);
         $form->handleRequest($request);
 

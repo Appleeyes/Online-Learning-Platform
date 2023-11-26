@@ -663,15 +663,11 @@ section
 	-o-transform: translateX(-50%);
 	transform: translateX(-50%);
 	background: #ffb606;
-	padding-top: 24px;
-	padding-bottom: 18px;
-	padding-left: 39px;
-	padding-right: 42px;
+	padding: 30px;
 }
 .home_content h1
 {
-	font-size: 72px;
-	font-weight: 400;
+	font-weight: 800;
 	color: #FFFFFF;
 	line-height: 0.5;
 }

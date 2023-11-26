@@ -5,9 +5,19 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Profile of
-		{{  user.username }}</h1>
+    <!-- Home -->
 
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/teachers_background.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>Edit Profile</h1>
+		</div>
+	</div>
+
+    <div class="container mt-5 mb-5">
         {{ form(form) }}
+	</div>
 {% endblock %}
 

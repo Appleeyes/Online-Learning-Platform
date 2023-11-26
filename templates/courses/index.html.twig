@@ -31,9 +31,11 @@
 				{% for course in courses %}
 					<!-- Popular Course Item -->
 					<div class="col-lg-4 course_box">
-						<div class="card position-relative">
+						<div
+							class="card position-relative">
 							<!-- Image -->
-							<img class="card-img-top" src="{{ asset('images/course_1.jpg') }}" alt="https://unsplash.com/@kellybrito">
+							<img
+							class="card-img-top" src="{{ asset('images/course_1.jpg') }}" alt="https://unsplash.com/@kellybrito">
 							<!-- Overlay buttons on the image -->
 							<div class="overlay-buttons">
 								<a href="{{ path('app_courses_show', {'id': course.id}) }}">View</a>
@@ -56,7 +58,12 @@
 								<div class="card-title">
 									<a href="{{ path('app_courses_show', {'id': course.id}) }}">{{ course.title }}</a>
 								</div>
-								<div class="card-text">{{ course.description }}...</div>
+								<div class="card-text">
+									{% set words = course.description|split(' ') %}
+									{{ words|slice(0, 5)|join(' ') }}
+									{% if words|length > 5 %}...
+									{% endif %}
+								</div>
 							</div>
 							<div class="price_box d-flex flex-row align-items-center">
 								<div class="d-flex border-top mr-3">

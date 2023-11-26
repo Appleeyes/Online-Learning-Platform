@@ -23,10 +23,10 @@ class ProfileType extends AbstractType
             ])
             ->add('dateOfBirth', DateType::class, [
                 'label' => 'Date of Birth',
-                'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker'],
+                'years' => range(date('Y') - 100, date('Y')),
             ])
             ->add('country')
             ->add('address')

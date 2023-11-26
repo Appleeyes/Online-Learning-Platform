@@ -3,11 +3,26 @@
 {% block title %}Edit Courses{% endblock %}
 
 {% block body %}
-    <h1>Edit {{ course.title }}</h1>
+    <!-- Home -->
 
-    {{ include('courses/_form.html.twig', {'button_label': 'Update'}) }}
+	<div class="home">
+		<div class="home_background_container prlx_parent">
+			<div class="home_background prlx" style="background-image:url({{ asset('images/course_5.jpg') }})"></div>
+		</div>
+		<div class="home_content">
+			<h1>Edit {{ course.title }}</h1>
+		</div>
+	</div>
 
-    <a href="{{ path('app_courses_index') }}">back to list</a>
-
-    {{ include('courses/_delete_form.html.twig') }}
+    <div class="container mt-5 mb-5">
+		{{ include('courses/_form.html.twig', {'button_label': 'Update'}) }}
+		<div class="row">
+			<div class="col text-end">
+				<a class="btn btn-primary" href="{{ path('app_courses_index') }}">Back to list</a>
+			</div>
+            <div class="col-auto">
+				{{ include('courses/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

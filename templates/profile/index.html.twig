@@ -30,6 +30,7 @@
 		{% endblock %}
 
 		{% block body %}
+		{{ include('shared/_header.html.twig') }}
 			{% if user.profile %}
 				<div class="fh5co-loader"></div>
 
@@ -41,7 +42,7 @@
 								<div class="col-md-8 col-md-offset-2 text-center">
 									<div class="display-t js-fullheight">
 										<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-											<div class="profile-thumb" style="background: url('{{ asset('uploads/profile/' ~ image_path) }}');"></div>
+											<div class="profile-thumb" style="background: url('{{ asset('uploads/profile/' ~ image_path) }}'); margin-top: 150px;"></div>
 											<h1>
 												<span>{{ user.fullname }}</span>
 											</h1>
@@ -295,12 +296,63 @@
 					</div>
 				</div>
 			{% else %}
-				<div class="row">
-					<div class="col-12 text-end">
+			    <div class="fh5co-loader"></div>
+
+				<div id="page">
+					<header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner" style="background-image: url('{{ asset('uploads/profile/' ~ image_path) }}');" data-stellar-background-ratio="0.5">
+						<div class="overlay"></div>
+						<div class="container">
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2 text-center">
+									<div class="display-t js-fullheight">
+										<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
+											<div class="profile-thumb" style="background: url('{{ asset('uploads/profile/' ~ image_path) }}');"></div>
+											<h1>
+												<span>{{ user.fullname }}</span>
+											</h1>
+											<h3>
+												<span>{{ user_roles | join(', ') }}</span>
+											</h3>
+											<p>
+												<ul class="fh5co-social-icons">
+													<li>
+														<a href="#">
+															<i class="fa-brands fa-twitter"></i>
+														</a>
+													</li>
+													<li>
+														<a href="#">
+															<i class="fa-brands fa-facebook-f"></i>
+														</a>
+													</li>
+													<li>
+														<a href="#">
+															<i class="fa-brands fa-linkedin-in"></i>
+														</a>
+													</li>
+													<li>
+														<a href="#">
+															<i class="fa-brands fa-dribbble"></i>
+														</a>
+													</li>
+												</ul>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</header>
+
+				<div class="row mt-5">
+					<div class="col-auto">
 						<a href="{{ path('app_profile_new') }}" class="btn btn-primary">Create profile</a>
 					</div>
 				</div>
 			{% endif %}
+
+			{{ include('shared/_footer.html.twig') }}
+
 
 			<script src="{{ asset('js/profile/modernizr-2.6.2.min.js') }}"></script>
 			<script src="{{ asset('js/profile/jquery.min.js') }}"></script>
