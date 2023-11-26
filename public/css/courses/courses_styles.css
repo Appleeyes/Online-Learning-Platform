@@ -960,6 +960,7 @@ section
 .footer_column_content
 {
 	margin-top: 32px;
+	margin-left: 0;
 }
 .footer_list_item
 {
