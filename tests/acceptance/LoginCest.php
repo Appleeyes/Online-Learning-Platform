@@ -23,7 +23,7 @@ class LoginCest
         $I->see('Invalid credentials.');
     }
 
-    public function aloginFormWorks(AcceptanceTester $I)
+    public function loginFormWorks(AcceptanceTester $I)
     {
         $I->amOnPage('/login');
         $I->fillField('_username', 'TestusernameAcceptance');
