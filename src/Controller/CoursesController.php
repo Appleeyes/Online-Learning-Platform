@@ -102,7 +102,9 @@ class CoursesController extends AbstractController
 
     #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
-    public function unenroll(Request $request, Courses $course, EntityManagerInterface $entityManager, EnrollmentsRepository $enrollmentsRepository): Response
+    public function unenroll(Request $request, Courses $course, 
+    EntityManagerInterface $entityManager, 
+    EnrollmentsRepository $enrollmentsRepository): Response
     {
         $enrollment = $enrollmentsRepository->findOneBy(['course' => $course, 'user' => $this->getUser()]);
         foreach ($enrollment->getProgresses() as $progress) {

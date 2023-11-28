@@ -44,7 +44,8 @@ class LessonsController extends AbstractController
             $entityManager->persist($lesson);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_instructor_course_show', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_instructor_course_show',
+             ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('lessons/new.html.twig', [
@@ -73,8 +74,8 @@ class LessonsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_instructor_course_show', ['id' => $lesson->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_instructor_course_show', 
+            ['id' => $lesson->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('lessons/edit.html.twig', [
@@ -92,15 +93,18 @@ class LessonsController extends AbstractController
             $entityManager->remove($lesson);
             $entityManager->flush();
         }
-
-        return $this->redirectToRoute('app_instructor_course_show', ['id' => $lesson->getCourse()->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_instructor_course_show', 
+        ['id' => $lesson->getCourse()->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/complete', name: 'app_lessons_complete', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
-    public function complete(Lessons $lessons, EnrollmentsRepository $enrollmentsRepository, EntityManagerInterface $entityManager): Response
+    public function complete(Lessons $lessons, 
+    EnrollmentsRepository $enrollmentsRepository, 
+    EntityManagerInterface $entityManager): Response
     {
-        $enrollment = $enrollmentsRepository->findOneBy(['course' => $lessons->getCourse(), 'user' => $this->getUser()]);
+        $enrollment = $enrollmentsRepository->findOneBy(['course' => $lessons->getCourse(), 
+        'user' => $this->getUser()]);
         $progress = new Progress();
         $progress->setLessons($lessons);
         $progress->setStatus(1);
