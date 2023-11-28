@@ -9,7 +9,9 @@ use App\Entity\Profile;
 use App\Entity\Users;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+;
 
 class UsersFixture extends Fixture
 {

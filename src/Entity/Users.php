@@ -139,7 +139,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Get the value of email
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;
@@ -149,7 +149,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the value of email
      *
      * @return  self
-     */ 
+     */
     public function setEmail($email)
     {
         $this->email = $email;
@@ -159,7 +159,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Get the value of createdAt
-     */ 
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -169,7 +169,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the value of createdAt
      *
      * @return  self
-     */ 
+     */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
@@ -179,7 +179,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Get the value of updatedAt
-     */ 
+     */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
@@ -189,7 +189,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the value of updatedAt
      *
      * @return  self
-     */ 
+     */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
@@ -300,7 +300,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Get the value of isInstructor
-     */ 
+     */
     public function getIsInstructor()
     {
         return $this->isInstructor;
@@ -310,7 +310,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the value of isInstructor
      *
      * @return  self
-     */ 
+     */
     public function setIsInstructor($isInstructor)
     {
         $this->isInstructor = $isInstructor;

@@ -88,7 +88,7 @@ class LessonsController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function delete(Request $request, Lessons $lesson, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$lesson->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $lesson->getId(), $request->request->get('_token'))) {
             $entityManager->remove($lesson);
             $entityManager->flush();
         }
@@ -98,7 +98,7 @@ class LessonsController extends AbstractController
 
     #[Route('/{id}/complete', name: 'app_lessons_complete', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
-    public function complete(Lessons $lessons, EnrollmentsRepository $enrollmentsRepository, EntityManagerInterface $entityManager):Response
+    public function complete(Lessons $lessons, EnrollmentsRepository $enrollmentsRepository, EntityManagerInterface $entityManager): Response
     {
         $enrollment = $enrollmentsRepository->findOneBy(['course' => $lessons->getCourse(), 'user' => $this->getUser()]);
         $progress = new Progress();

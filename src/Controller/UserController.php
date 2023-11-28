@@ -10,7 +10,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
-
     #[Route('/users/all', name: 'app_all_users')]
     public function users(UsersRepository $usersRepisotory): Response
     {

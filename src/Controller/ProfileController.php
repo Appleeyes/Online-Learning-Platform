@@ -38,7 +38,7 @@ class ProfileController extends AbstractController
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('image')->getData();
 
             if ($image) {

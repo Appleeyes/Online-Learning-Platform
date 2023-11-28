@@ -117,7 +117,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function delete(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$course->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $course->getId(), $request->request->get('_token'))) {
             $entityManager->remove($course);
             $entityManager->flush();
         }

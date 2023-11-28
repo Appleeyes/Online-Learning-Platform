@@ -145,4 +145,3 @@ class Lessons
         return $this;
     }
 }
-
