@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1 style="margin-top:250px;">Access denied!</h1>
+        <p style="margin-bottom:150px;">
+            The requested page is a restricted page. You do not have access to this page please <a href="{{ path('app_homepage') }}">return to the homepage</a>.
+        </p>
+    </div>
+{% endblock %}

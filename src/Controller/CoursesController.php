@@ -17,6 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/courses')]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class CoursesController extends AbstractController
 {
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
@@ -31,6 +32,7 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $course = new Courses();
@@ -67,6 +69,7 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_courses_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function edit(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CoursesType::class, $course);
@@ -86,6 +89,7 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function enroll(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
         $enrollment = new Enrollments();
@@ -97,6 +101,7 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function unenroll(Request $request, Courses $course, EntityManagerInterface $entityManager, EnrollmentsRepository $enrollmentsRepository): Response
     {
         $enrollment = $enrollmentsRepository->findOneBy(['course' => $course, 'user' => $this->getUser()]);
@@ -109,6 +114,7 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function delete(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$course->getId(), $request->request->get('_token'))) {

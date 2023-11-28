@@ -14,7 +14,7 @@ class UserController extends AbstractController
     #[Route('/users/all', name: 'app_all_users')]
     public function users(UsersRepository $usersRepisotory): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_INSTRUCTOR');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $users = $usersRepisotory->findAll();
         return $this->render('user/all_users.html.twig', [
             'users' => $users

@@ -97,6 +97,7 @@ class LessonsController extends AbstractController
     }
 
     #[Route('/{id}/complete', name: 'app_lessons_complete', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function complete(Lessons $lessons, EnrollmentsRepository $enrollmentsRepository, EntityManagerInterface $entityManager):Response
     {
         $enrollment = $enrollmentsRepository->findOneBy(['course' => $lessons->getCourse(), 'user' => $this->getUser()]);

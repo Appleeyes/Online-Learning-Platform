@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Users;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StudentController extends AbstractController
 {
     #[Route('/student/courses', name: 'app_student_courses')]
+    #[IsGranted('ROLE_STUDENT')]
     public function enrolledCourses(): Response
     {
         /** @var Users $user */
