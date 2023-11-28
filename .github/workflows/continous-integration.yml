@@ -86,6 +86,9 @@ jobs:
       - name: "Install Composer dependencies"
         run: "composer install"
 
+      - name: Check Database Connection
+        run: php bin/console doctrine:query:sql 'SELECT 1'
+
       - name: Start PHP Built-in Server
         run: php -S localhost:8000 -t public > /dev/null 2>&1 & 
 
