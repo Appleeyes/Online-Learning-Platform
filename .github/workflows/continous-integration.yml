@@ -86,11 +86,8 @@ jobs:
       - name: "Install Composer dependencies"
         run: "composer install"
 
-      - name: Start Symfony Web Server
-        run: composer serve --timeout=0 --no-interaction
+      - name: Start PHP Built-in Server
+        run: php -S localhost:8000 -t public > /dev/null 2>&1 & 
 
       - name: "Run Codeception acceptance tests"
         run: "vendor/bin/codecept run acceptance"
-
-      - name: Stop Symfony Web Server
-        run: pkill -f "php -S localhost:"
