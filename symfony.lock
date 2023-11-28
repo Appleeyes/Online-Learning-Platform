@@ -77,6 +77,12 @@
             "./config/packages/fos_ckeditor.yaml"
         ]
     },
+    "phpstan/phpstan": {
+        "version": "1.10",
+        "recipe": {
+            "version": "1.0"
+        }
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
