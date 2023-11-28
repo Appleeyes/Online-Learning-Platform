@@ -21,6 +21,7 @@ jobs:
           - "8.1"
         operating-system:
           - "ubuntu-latest"
+          - "windows-latest"
 
     steps:
       - name: "Checkout Repostories"
@@ -44,7 +45,17 @@ jobs:
   acceptance-tests:
     name: "Acceptance tests"
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        dependencies:
+          - "locked"
+        php-version:
+          - "8.1"
+        operating-system:
+          - "ubuntu-latest"
+          - "windows-latest"
 
     steps:
       - name: "Checkout Repository"
@@ -54,7 +65,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "pcov"
-          php-version: "8.1"
+          php-version: ${{ matrix.php-version }}
           ini-values: memory_limit=-1
 
       - name: Set Environment Variables
@@ -75,5 +86,11 @@ jobs:
       - name: "Install Composer dependencies"
         run: "composer install"
 
+      - name: Start Symfony Web Server
+        run: symfony server:start --daemon
+
       - name: "Run Codeception acceptance tests"
         run: "vendor/bin/codecept run acceptance"
+
+      - name: Stop Symfony Web Server
+        run: symfony server:stop
