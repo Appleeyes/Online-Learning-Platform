@@ -41,35 +41,39 @@ jobs:
       - name: "PHPStan"
         run: "vendor/bin/phpstan analyse --memory-limit=-1 src/Controller/ProfileController.php"
 
-  coding-standards:
-    name: "Check Coding Standards"
+  acceptance-tests:
+    name: "Acceptance tests"
 
-    runs-on: ${{ matrix.operating-system }}
-
-    strategy:
-      matrix:
-        dependencies:
-          - "locked"
-        php-version:
-          - "8.1"
-        operating-system:
-          - "ubuntu-latest"
+    runs-on: ubuntu-latest
 
     steps:
-      - name: "Checkout Repositories"
+      - name: "Checkout Repository"
         uses: "actions/checkout@v3"
 
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          coverage: "pcov"
+          php-version: "8.1"
           ini-values: memory_limit=-1
 
-      - name: "Install composer dependencies"
-        uses: "ramsey/composer-install@2.2.0"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
+      - name: Set Environment Variables
+        run: |
+           echo "DATABASE_URL=mysql://applw:apple@22@127.0.0.1:3306/online-learning-platform" >> $GITHUB_ENV
 
-      - name: "Coding Standard"
-        run: "vendor/bin/phpcs src/ --standard=psr12"
+      - name: "Get composer cache directory"
+        id: "composer-cache"
+        run: "echo \"::set-output name=dir::$(composer config cache-files-dir)\""
+
+      - name: "Cache composer dependencies"
+        uses: "actions/cache@v1"
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: "${{ runner.os }}-composer-"
+
+      - name: "Install Composer dependencies"
+        run: "composer install"
+
+      - name: "Run Codeception acceptance tests"
+        run: "vendor/bin/codecept run acceptance"
