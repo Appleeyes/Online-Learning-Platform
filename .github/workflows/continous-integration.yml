@@ -39,7 +39,7 @@ jobs:
           dependency-versions: "${{ matrix.dependencies }}"
 
       - name: "PHPStan"
-        run: "vendor/bin/phpstan analyse --memory-limit=-1"
+        run: "vendor/bin/phpstan analyse --memory-limit=-1 ."
 
   coding-standards:
     name: "Check Coding Standards"
