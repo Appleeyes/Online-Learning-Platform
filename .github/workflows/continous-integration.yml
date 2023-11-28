@@ -87,10 +87,10 @@ jobs:
         run: "composer install"
 
       - name: Start Symfony Web Server
-        run: symfony server:start --daemon
+        run: composer serve --timeout=0 --no-interaction
 
       - name: "Run Codeception acceptance tests"
         run: "vendor/bin/codecept run acceptance"
 
       - name: Stop Symfony Web Server
-        run: symfony server:stop
+        run: pkill -f "php -S localhost:"
